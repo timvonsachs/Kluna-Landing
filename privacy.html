@@ -115,7 +115,7 @@
         </div>
 
         <h2>2. Transkription</h2>
-        <p>Deine gesprochenen Worte werden in Text umgewandelt, damit du deine Einträge lesen kannst. Die Transkription nutzt Apples On-Device Speech Recognition und wird lokal verarbeitet.</p>
+        <p>Deine gesprochenen Worte werden in Text umgewandelt, damit du deine Einträge lesen kannst. Die Transkription nutzt Whisper.</p>
 
         <h2>3. KI-Coach</h2>
         <p>Um dir persönliches Feedback zu geben, werden folgende Daten an die Anthropic API (Claude) gesendet:</p>
@@ -139,21 +139,79 @@
         <p>Alle diese Daten verbleiben auf deinem Gerät und werden nicht an Dritte weitergegeben, es sei denn, du entscheidest dich freiwillig für die Datenspende.</p>
 
         <h2>5. Datenspende (freiwillig)</h2>
-        <p>Du kannst freiwillig anonymisierte Stimmdaten für die Forschung spenden. Diese Funktion ist standardmäßig deaktiviert und kann jederzeit ein- und ausgeschaltet werden.</p>
+        <p>Du kannst freiwillig anonymisierte Stimmdaten für die Forschung spenden. Diese Funktion ist standardmäßig deaktiviert und kann jederzeit ein- und ausgeschaltet werden. Ziel ist der Aufbau des größten anonymen Stimm-Biomarker-Datensatzes der Welt – für bessere Erkennung von Stress, Erschöpfung und emotionalen Mustern in der menschlichen Stimme.</p>
+
         <div class="highlight">
             <p class="bold">Was bei einer Spende gesendet wird:</p>
-            <p>• 5 berechnete Dimensionswerte (Wärme, Stabilität, Energie, Tempo, Offenheit)</p>
-            <p>• Stimmungs-Label (z.B. „zufrieden")</p>
-            <p>• Altersgruppe und Geschlecht</p>
+            <p>Pro Eintrag werden 46 berechnete Zahlenwerte übermittelt:</p>
         </div>
+
         <div class="highlight">
-            <p class="bold">Was NICHT gesendet wird:</p>
-            <p>• Keine Stimme, keine Audioaufnahmen</p>
-            <p>• Kein Text, keine Transkripte</p>
-            <p>• Kein Name, keine E-Mail, keine Geräte-ID</p>
-            <p>• Keine Möglichkeit, die Daten einer Person zuzuordnen</p>
+            <p class="bold">Stimmqualität</p>
+            <p>• Jitter (Stimmstabilität)</p>
+            <p>• Shimmer (Amplitudenstabilität)</p>
+            <p>• HNR (Harmonic-to-Noise Ratio)</p>
         </div>
-        <p>Die gespendeten Daten dienen dem Aufbau eines anonymen Stimm-Biomarker-Datensatzes zur Verbesserung der Erkennung emotionaler Muster.</p>
+
+        <div class="highlight">
+            <p class="bold">Tonhöhe</p>
+            <p>• Mittlere Grundfrequenz (F0)</p>
+            <p>• Tonhöhen-Variation und Standardabweichung</p>
+            <p>• Tonhöhen-Bereich in Halbtönen</p>
+        </div>
+
+        <div class="highlight">
+            <p class="bold">Rhythmus</p>
+            <p>• Sprechgeschwindigkeit (Silben pro Sekunde)</p>
+            <p>• Artikulationsrate</p>
+            <p>• Pausenhäufigkeit und durchschnittliche Pausendauer</p>
+        </div>
+
+        <div class="highlight">
+            <p class="bold">Lautstärke</p>
+            <p>• Dynamikumfang</p>
+            <p>• Lautstärke-Variation (Standardabweichung)</p>
+        </div>
+
+        <div class="highlight">
+            <p class="bold">Spektralanalyse</p>
+            <p>• Formanten F1–F4</p>
+            <p>• Formant-Dispersion</p>
+            <p>• Spektrale Energieverteilung (Body, Warmth, Presence, Air)</p>
+        </div>
+
+        <div class="highlight">
+            <p class="bold">Berechnete Werte</p>
+            <p>• 5 Stimm-Dimensionen (Wärme, Stabilität, Energie, Tempo, Offenheit)</p>
+            <p>• Arousal und Akustische Valenz</p>
+            <p>• Persönliche Baseline-Vergleiche (Z-Scores)</p>
+            <p>• Akustische Auffälligkeiten (Flags)</p>
+        </div>
+
+        <div class="highlight">
+            <p class="bold">Segment-Daten</p>
+            <p>• Pro 5-Sekunden-Abschnitt der Aufnahme werden die wichtigsten Stimmmerkmale separat erfasst</p>
+            <p>• Dies ermöglicht die Analyse emotionaler Veränderungen innerhalb eines einzelnen Eintrags</p>
+        </div>
+
+        <div class="highlight">
+            <p class="bold">Kontext</p>
+            <p>• Stimmungs-Label (z.B. „zufrieden", „erschöpft")</p>
+            <p>• Altersgruppe und Geschlecht</p>
+            <p>• Nummer des Eintrags (zur Einschätzung der Baseline-Qualität)</p>
+            <p>• App-Version</p>
+        </div>
+
+        <div class="highlight" style="background-color: rgba(232, 92, 92, 0.04);">
+            <p class="bold" style="color: #E85C5C;">Was NICHT gesendet wird:</p>
+            <p>• Keine Stimme und keine Audioaufnahmen</p>
+            <p>• Kein Text und keine Transkripte</p>
+            <p>• Kein Name, keine E-Mail-Adresse, keine Geräte-ID</p>
+            <p>• Keine IP-Adresse und keine Standortdaten</p>
+            <p>• Es besteht keine Möglichkeit, die gespendeten Daten einer Person zuzuordnen</p>
+        </div>
+
+        <p>Alle gespendeten Daten werden in einer Datenbank in Frankfurt (EU) gespeichert und unterliegen der DSGVO. Die Daten werden ausschließlich für Forschungszwecke im Bereich Stimm-Biomarker und emotionale Erkennung verwendet.</p>
 
         <h2>6. Deine Kontrolle</h2>
         <p>Du hast jederzeit die volle Kontrolle über deine Daten:</p>
@@ -168,7 +226,7 @@
         <p>Kluna nutzt folgende Drittanbieter-Dienste:</p>
         <div class="highlight">
             <p>• <span class="bold">Anthropic (Claude API)</span> – für KI-gestütztes Feedback. Es werden nur Textdaten und berechnete Zahlenwerte gesendet. <a href="https://www.anthropic.com/privacy" style="color: #E8825C;">Anthropic Datenschutz</a></p>
-            <p>• <span class="bold">Apple (Speech Recognition)</span> – für On-Device-Transkription. Daten verlassen das Gerät nicht.</p>
+            <p>• <span class="bold">Whisper</span> – für die Transkription gesprochener Einträge.</p>
         </div>
         <p>Kluna nutzt keine Tracking-Dienste, keine Werbung und keine Analytics-Tools von Drittanbietern.</p>
 
