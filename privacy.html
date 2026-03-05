@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kluna – Datenschutzrichtlinie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Rounded', 'Helvetica Neue', sans-serif;
+            background-color: #FFF8F0;
+            color: #3D3229;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #3D3229;
+        }
+        .subtitle {
+            font-size: 15px;
+            color: #3D3229;
+            opacity: 0.4;
+            margin-bottom: 48px;
+        }
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 12px;
+            color: #E8825C;
+        }
+        p {
+            font-size: 16px;
+            margin-bottom: 16px;
+            color: #3D3229;
+            opacity: 0.75;
+        }
+        .highlight {
+            background-color: rgba(232, 130, 92, 0.06);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 24px 0;
+        }
+        .highlight p {
+            margin-bottom: 8px;
+            opacity: 0.85;
+        }
+        .highlight p:last-child {
+            margin-bottom: 0;
+        }
+        .bold {
+            font-weight: 600;
+            color: #3D3229;
+            opacity: 1;
+        }
+        .divider {
+            height: 1px;
+            background-color: #3D3229;
+            opacity: 0.06;
+            margin: 40px 0;
+        }
+        .contact {
+            background-color: rgba(232, 130, 92, 0.06);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+        .contact a {
+            color: #E8825C;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .contact a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 48px;
+            font-size: 13px;
+            color: #3D3229;
+            opacity: 0.25;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Datenschutzrichtlinie</h1>
+        <p class="subtitle">Kluna – Das erste Tagebuch das hört wie es dir wirklich geht.</p>
+
+        <p>Deine Privatsphäre ist uns wichtig. Kluna wurde von Anfang an so gebaut, dass deine persönlichsten Daten – deine Stimme – geschützt bleiben. Diese Richtlinie erklärt transparent, welche Daten erhoben werden, wie sie verarbeitet werden und welche Kontrolle du hast.</p>
+
+        <h2>1. Stimmanalyse</h2>
+        <div class="highlight">
+            <p class="bold">Deine Stimme verlässt nie dein Gerät.</p>
+            <p>Die Analyse deiner Stimme (Tonhöhe, Tempo, Stabilität, Wärme, Pausen) passiert vollständig auf deinem iPhone. Keine Audioaufnahme wird an einen Server gesendet. Die Rohdaten deiner Stimme bleiben lokal auf deinem Gerät gespeichert.</p>
+        </div>
+
+        <h2>2. Transkription</h2>
+        <p>Deine gesprochenen Worte werden in Text umgewandelt, damit du deine Einträge lesen kannst. Die Transkription nutzt Apples On-Device Speech Recognition und wird lokal verarbeitet.</p>
+
+        <h2>3. KI-Coach</h2>
+        <p>Um dir persönliches Feedback zu geben, werden folgende Daten an die Anthropic API (Claude) gesendet:</p>
+        <div class="highlight">
+            <p>• Dein transkribierter Text</p>
+            <p>• Berechnete Stimmwerte (Zahlen wie Energie, Wärme, Stabilität – keine Audiodaten)</p>
+            <p>• Deine letzten Einträge (für Kontext)</p>
+        </div>
+        <p>Es werden keine Audiodaten, keine Stimme und keine biometrischen Rohdaten an die API gesendet. Die Anthropic API speichert keine Nutzerdaten und verwendet sie nicht zum Training.</p>
+
+        <h2>4. Welche Daten lokal gespeichert werden</h2>
+        <p>Auf deinem Gerät speichert Kluna:</p>
+        <div class="highlight">
+            <p>• Audioaufnahmen deiner Einträge</p>
+            <p>• Transkripte</p>
+            <p>• Berechnete Stimmwerte und Dimensionen</p>
+            <p>• Persönliche Baselines (dein individuelles Stimmprofil)</p>
+            <p>• Stimmungs-Labels und Coach-Texte</p>
+            <p>• Dein Name, Altersgruppe und Geschlecht</p>
+        </div>
+        <p>Alle diese Daten verbleiben auf deinem Gerät und werden nicht an Dritte weitergegeben, es sei denn, du entscheidest dich freiwillig für die Datenspende.</p>
+
+        <h2>5. Datenspende (freiwillig)</h2>
+        <p>Du kannst freiwillig anonymisierte Stimmdaten für die Forschung spenden. Diese Funktion ist standardmäßig deaktiviert und kann jederzeit ein- und ausgeschaltet werden.</p>
+        <div class="highlight">
+            <p class="bold">Was bei einer Spende gesendet wird:</p>
+            <p>• 5 berechnete Dimensionswerte (Wärme, Stabilität, Energie, Tempo, Offenheit)</p>
+            <p>• Stimmungs-Label (z.B. „zufrieden")</p>
+            <p>• Altersgruppe und Geschlecht</p>
+        </div>
+        <div class="highlight">
+            <p class="bold">Was NICHT gesendet wird:</p>
+            <p>• Keine Stimme, keine Audioaufnahmen</p>
+            <p>• Kein Text, keine Transkripte</p>
+            <p>• Kein Name, keine E-Mail, keine Geräte-ID</p>
+            <p>• Keine Möglichkeit, die Daten einer Person zuzuordnen</p>
+        </div>
+        <p>Die gespendeten Daten dienen dem Aufbau eines anonymen Stimm-Biomarker-Datensatzes zur Verbesserung der Erkennung emotionaler Muster.</p>
+
+        <h2>6. Deine Kontrolle</h2>
+        <p>Du hast jederzeit die volle Kontrolle über deine Daten:</p>
+        <div class="highlight">
+            <p>• <span class="bold">Daten löschen:</span> In der App unter Profil → „Alle Daten löschen" werden sämtliche lokalen Daten unwiderruflich entfernt.</p>
+            <p>• <span class="bold">Datenspende beenden:</span> Jederzeit unter Profil → Stimmdaten spenden deaktivieren.</p>
+            <p>• <span class="bold">Daten exportieren:</span> Du kannst deine Daten unter Profil → „Daten exportieren" herunterladen.</p>
+            <p>• <span class="bold">App löschen:</span> Beim Deinstallieren der App werden alle lokalen Daten automatisch entfernt.</p>
+        </div>
+
+        <h2>7. Drittanbieter</h2>
+        <p>Kluna nutzt folgende Drittanbieter-Dienste:</p>
+        <div class="highlight">
+            <p>• <span class="bold">Anthropic (Claude API)</span> – für KI-gestütztes Feedback. Es werden nur Textdaten und berechnete Zahlenwerte gesendet. <a href="https://www.anthropic.com/privacy" style="color: #E8825C;">Anthropic Datenschutz</a></p>
+            <p>• <span class="bold">Apple (Speech Recognition)</span> – für On-Device-Transkription. Daten verlassen das Gerät nicht.</p>
+        </div>
+        <p>Kluna nutzt keine Tracking-Dienste, keine Werbung und keine Analytics-Tools von Drittanbietern.</p>
+
+        <h2>8. Kinder</h2>
+        <p>Kluna ist nicht für Personen unter 16 Jahren bestimmt. Wir erheben wissentlich keine Daten von Kindern.</p>
+
+        <h2>9. Änderungen</h2>
+        <p>Diese Datenschutzrichtlinie kann aktualisiert werden. Wesentliche Änderungen werden innerhalb der App kommuniziert. Die aktuelle Version ist immer unter dieser URL verfügbar.</p>
+
+        <div class="divider"></div>
+
+        <div class="contact">
+            <p class="bold">Kontakt</p>
+            <p>Bei Fragen zum Datenschutz erreichst du uns unter:</p>
+            <p><a href="mailto:timvonsachs@gmail.com">timvonsachs@gmail.com</a></p>
+        </div>
+
+        <p class="footer">Kluna · novahealth.dev · Stand: März 2026</p>
+    </div>
+</body>
+</html>
