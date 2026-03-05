@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kluna – Dein Tagebuch hört zu</title>
+    <meta name="description" content="Das erste Tagebuch das versteht wie es dir wirklich geht. Sprich statt zu schreiben. Kluna hört zu.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --creme: #FFF8F0;
+            --brown: #3D3229;
+            --accent: #E8825C;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--creme);
+            color: var(--brown);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        .serif { font-family: 'Instrument Serif', Georgia, serif; }
+
+        /* ===== CURSOR ===== */
+        .cursor-glow {
+            position: fixed; width: 350px; height: 350px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(232,130,92,0.12) 0%, transparent 70%);
+            pointer-events: none; z-index: 9999; transform: translate(-50%,-50%);
+            opacity: 0; transition: opacity 0.4s; mix-blend-mode: multiply;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh; min-height: 100svh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 40px 24px; position: relative; overflow: hidden;
+        }
+        .hero-bg-wave {
+            position: absolute; bottom: -2px; left: 0; width: 100%; height: 120px;
+            pointer-events: none;
+        }
+        .hero-orb {
+            position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none;
+            animation: orbDrift 16s ease-in-out infinite;
+        }
+        .hero-orb-1 { width: 500px; height: 500px; background: var(--accent); opacity: 0.04; top: -10%; right: -10%; }
+        .hero-orb-2 { width: 400px; height: 400px; background: #4DB8A4; opacity: 0.03; bottom: 10%; left: -10%; animation-delay: -6s; }
+        @keyframes orbDrift {
+            0%,100% { transform: translate(0,0) scale(1); }
+            50% { transform: translate(20px,-20px) scale(1.06); }
+        }
+
+        .hero-eyebrow {
+            font-size: 13px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;
+            color: var(--accent); opacity: 0; animation: rise 0.8s ease-out 0.2s forwards;
+            margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(40px, 7vw, 80px); font-weight: 400; line-height: 1.08;
+            max-width: 800px; opacity: 0; animation: rise 1s ease-out 0.4s forwards;
+        }
+        .hero h1 em { font-style: italic; color: var(--accent); }
+        .hero-sub {
+            font-size: clamp(16px, 2vw, 20px); line-height: 1.7; max-width: 440px;
+            color: rgba(61,50,41,0.45); margin-top: 28px;
+            opacity: 0; animation: rise 0.8s ease-out 0.7s forwards;
+        }
+        .hero-cta {
+            margin-top: 44px; display: flex; flex-direction: column; align-items: center; gap: 12px;
+            opacity: 0; animation: rise 0.8s ease-out 0.9s forwards;
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--accent); color: white;
+            font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 600;
+            padding: 16px 44px; border-radius: 50px; text-decoration: none;
+            border: none; cursor: pointer; position: relative; overflow: hidden;
+            transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s;
+            box-shadow: 0 6px 28px rgba(232,130,92,0.25);
+        }
+        .btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 12px 44px rgba(232,130,92,0.35); }
+        .btn:active { transform: scale(0.97); }
+        .btn-shimmer {
+            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+            animation: shimmer 3.5s ease-in-out infinite;
+        }
+        @keyframes shimmer { 0% { left: -100%; } 100% { left: 200%; } }
+        .btn-sub { font-size: 13px; color: rgba(61,50,41,0.2); }
+
+        .scroll-indicator {
+            position: absolute; bottom: 32px;
+            opacity: 0; animation: rise 0.8s ease-out 1.3s forwards;
+        }
+        .scroll-indicator .line {
+            width: 1px; height: 32px; margin: 0 auto; overflow: hidden;
+        }
+        .scroll-indicator .line::after {
+            content: ''; display: block; width: 1px; height: 32px;
+            background: linear-gradient(to bottom, transparent, rgba(61,50,41,0.15), transparent);
+            animation: scrollLine 2s ease-in-out infinite;
+        }
+        .scroll-indicator span {
+            display: block; font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+            color: rgba(61,50,41,0.12); margin-bottom: 8px;
+        }
+        @keyframes scrollLine { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== CONTRAST SECTION ===== */
+        .contrast {
+            padding: 120px 24px; text-align: center; position: relative;
+        }
+        .contrast-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+            max-width: 720px; margin: 0 auto;
+        }
+        .contrast-card {
+            padding: 40px 28px; border-radius: 24px; text-align: left;
+            transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+        }
+        .contrast-card:hover { transform: translateY(-4px); }
+        .contrast-old {
+            background: rgba(61,50,41,0.03); border: 1px solid rgba(61,50,41,0.04);
+        }
+        .contrast-new {
+            background: white;
+            box-shadow: 0 8px 40px rgba(232,130,92,0.06);
+            border: 1px solid rgba(232,130,92,0.08);
+        }
+        .contrast-label {
+            font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .contrast-old .contrast-label { color: rgba(61,50,41,0.25); }
+        .contrast-new .contrast-label { color: var(--accent); }
+        .contrast-card h3 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 24px; font-weight: 400; margin-bottom: 12px; line-height: 1.3;
+        }
+        .contrast-card p { font-size: 15px; line-height: 1.65; color: rgba(61,50,41,0.45); }
+        .contrast-old h3 { color: rgba(61,50,41,0.35); }
+        .contrast-line {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 14px; color: rgba(61,50,41,0.3); margin-top: 16px;
+        }
+        .contrast-line .x { color: #ccc; font-size: 16px; }
+        .contrast-line-new { color: var(--accent); }
+        .contrast-line-new .check { color: var(--accent); font-size: 16px; }
+
+        /* ===== THE MOMENT ===== */
+        .moment {
+            padding: 100px 24px 120px; text-align: center; position: relative;
+            background: linear-gradient(180deg, var(--creme) 0%, white 40%, white 60%, var(--creme) 100%);
+        }
+        .moment h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(28px, 5vw, 48px); font-weight: 400; line-height: 1.15;
+            max-width: 600px; margin: 0 auto 48px;
+        }
+        .moment h2 em { font-style: italic; color: var(--accent); }
+
+        /* Interactive journal entry simulation */
+        .journal-sim {
+            max-width: 400px; margin: 0 auto; background: var(--creme);
+            border-radius: 28px; overflow: hidden;
+            box-shadow: 0 20px 80px rgba(61,50,41,0.08);
+            border: 1px solid rgba(61,50,41,0.04);
+        }
+        .js-header {
+            padding: 24px 24px 16px; text-align: left;
+        }
+        .js-date { font-size: 13px; color: rgba(61,50,41,0.3); margin-bottom: 12px; }
+        .js-mood-row { display: flex; align-items: center; gap: 12px; }
+        .js-mood-dot {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.25), #7BA7C4);
+            box-shadow: 0 4px 12px rgba(123,167,196,0.25);
+        }
+        .js-mood-label { font-size: 17px; font-weight: 600; }
+        .js-transcript {
+            padding: 0 24px; font-size: 15px; line-height: 1.7; color: rgba(61,50,41,0.55);
+            text-align: left; min-height: 60px;
+        }
+        .js-coach {
+            margin: 16px 20px 0; padding: 16px 18px; border-radius: 16px;
+            background: rgba(232,130,92,0.05); text-align: left;
+            display: flex; gap: 10px; align-items: flex-start;
+        }
+        .js-coach-icon { font-size: 16px; flex-shrink: 0; padding-top: 2px; }
+        .js-coach-text { font-size: 14px; line-height: 1.6; color: var(--accent); }
+        .js-wave-container { padding: 20px 24px; height: 60px; }
+        .js-typing-cursor {
+            display: inline-block; width: 2px; height: 16px; background: var(--accent);
+            margin-left: 2px; vertical-align: text-bottom;
+            animation: blink 0.8s ease-in-out infinite;
+        }
+        @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* ===== HOW ===== */
+        .how { padding: 120px 24px; text-align: center; }
+        .how h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(28px, 4.5vw, 44px); font-weight: 400; margin-bottom: 64px;
+        }
+        .how-steps {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+            max-width: 800px; margin: 0 auto;
+        }
+        .how-step {
+            padding: 32px 20px; text-align: center; position: relative;
+            border-radius: 20px; transition: background 0.3s;
+        }
+        .how-step:hover { background: white; }
+        .how-num {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 48px; color: var(--accent); opacity: 0.15; margin-bottom: 8px;
+            transition: opacity 0.3s;
+        }
+        .how-step:hover .how-num { opacity: 0.4; }
+        .how-step h3 { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+        .how-step p { font-size: 13px; line-height: 1.55; color: rgba(61,50,41,0.4); }
+
+        /* ===== FEATURES MARQUEE ===== */
+        .feat-marquee-section { padding: 60px 0; overflow: hidden; }
+        .feat-marquee {
+            display: flex; gap: 16px; width: max-content;
+            animation: featScroll 30s linear infinite;
+        }
+        .feat-pill {
+            display: flex; align-items: center; gap: 10px;
+            background: white; padding: 16px 28px; border-radius: 50px;
+            font-size: 15px; font-weight: 500; white-space: nowrap;
+            box-shadow: 0 2px 12px rgba(61,50,41,0.03);
+            transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
+        }
+        .feat-pill:hover { transform: scale(1.06); }
+        .feat-pill .icon { font-size: 18px; }
+        @keyframes featScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* ===== WHAT KLUNA HEARS ===== */
+        .hears { padding: 120px 24px; text-align: center; }
+        .hears h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(28px, 4.5vw, 44px); font-weight: 400; margin-bottom: 16px;
+        }
+        .hears .sub {
+            font-size: 17px; color: rgba(61,50,41,0.3); max-width: 440px;
+            margin: 0 auto 48px; line-height: 1.6;
+        }
+
+        .hears-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px; max-width: 800px; margin: 0 auto;
+        }
+        .hears-card {
+            background: white; border-radius: 20px; padding: 28px 24px; text-align: left;
+            transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.3s;
+            cursor: default; position: relative; overflow: hidden;
+        }
+        .hears-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(61,50,41,0.06); }
+        .hears-card::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            border-radius: 20px 20px 0 0; opacity: 0; transition: opacity 0.3s;
+        }
+        .hears-card:hover::after { opacity: 1; }
+        .hears-card .you { font-size: 14px; color: rgba(61,50,41,0.35); margin-bottom: 12px; font-style: italic; }
+        .hears-card .kluna {
+            font-size: 15px; font-weight: 600; line-height: 1.5; color: var(--accent);
+        }
+
+        /* ===== PRIVACY ===== */
+        .privacy { padding: 100px 24px; text-align: center; }
+        .privacy-card {
+            max-width: 480px; margin: 0 auto; background: white;
+            border-radius: 28px; padding: 48px 36px;
+            box-shadow: 0 8px 40px rgba(61,50,41,0.04);
+        }
+        .privacy-card h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 32px; font-weight: 400; margin-bottom: 16px;
+        }
+        .privacy-card p {
+            font-size: 16px; line-height: 1.7; color: rgba(61,50,41,0.45);
+        }
+        .privacy-card p strong { color: var(--brown); }
+        .privacy-pills {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 24px;
+        }
+        .pp {
+            font-size: 12px; font-weight: 500; padding: 6px 14px;
+            border-radius: 50px; background: rgba(107,197,160,0.08); color: #4DB8A4;
+        }
+
+        /* ===== FINAL ===== */
+        .final {
+            padding: 140px 24px; text-align: center; position: relative;
+        }
+        .final-orb {
+            position: absolute; width: 600px; height: 600px; border-radius: 50%;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0.03; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            animation: orbDrift 12s ease-in-out infinite;
+        }
+        .final h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(36px, 6vw, 64px); font-weight: 400; line-height: 1.08;
+            margin-bottom: 20px; position: relative;
+        }
+        .final h2 em { font-style: italic; color: var(--accent); }
+        .final .sub {
+            font-size: 17px; color: rgba(61,50,41,0.3); margin-bottom: 44px; position: relative;
+        }
+
+        footer {
+            padding: 48px 24px; text-align: center; font-size: 13px; color: rgba(61,50,41,0.15);
+        }
+        footer a { color: rgba(61,50,41,0.25); text-decoration: none; }
+        footer a:hover { color: var(--accent); }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 720px) {
+            .contrast-grid { grid-template-columns: 1fr; }
+            .how-steps { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .hears-grid { grid-template-columns: 1fr; }
+            .privacy-card { padding: 36px 24px; }
+        }
+        @media (max-width: 480px) {
+            .how-steps { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+
+    <div class="hero-eyebrow">Kluna</div>
+
+    <h1>Ein Tagebuch kann<br>nicht zuhören.<br><em>Dieses schon.</em></h1>
+
+    <p class="hero-sub">
+        Sag was du denkst. Kluna hört was du fühlst. In deiner Stimme steckt mehr Wahrheit als in tausend geschriebenen Worten.
+    </p>
+
+    <div class="hero-cta">
+        <a href="https://testflight.apple.com/join/DEIN_CODE" class="btn">
+            <span class="btn-shimmer"></span>
+            Sprich mit Kluna
+        </a>
+        <span class="btn-sub">Kostenlos · iOS · 20 Sekunden reichen</span>
+    </div>
+
+    <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="line"></div>
+    </div>
+</section>
+
+<!-- ===== CONTRAST: OLD vs NEW ===== -->
+<section class="contrast reveal">
+    <div class="contrast-grid">
+        <div class="contrast-card contrast-old">
+            <div class="contrast-label">Jedes andere Tagebuch</div>
+            <h3>Du tippst.<br>Es vergisst.</h3>
+            <p>Leere Seiten die nie zurückfragen. Kein Kontext. Kein Verständnis. Morgen weißt du nicht mehr wie sich heute angefühlt hat.</p>
+            <div class="contrast-line"><span class="x">✕</span> Fragt nie nach</div>
+            <div class="contrast-line"><span class="x">✕</span> Versteht kein Gefühl</div>
+            <div class="contrast-line"><span class="x">✕</span> Vergisst alles</div>
+        </div>
+        <div class="contrast-card contrast-new">
+            <div class="contrast-label">Kluna</div>
+            <h3>Du sprichst.<br>Es versteht.</h3>
+            <p>20 Sekunden deiner Stimme sagen mehr als eine Seite Text. Kluna hört das Zittern, die Wärme, die Müdigkeit – alles was zwischen den Worten liegt.</p>
+            <div class="contrast-line contrast-line-new"><span class="check">✓</span> Hört wie du wirklich klingst</div>
+            <div class="contrast-line contrast-line-new"><span class="check">✓</span> Sagt dir was du selbst nicht merkst</div>
+            <div class="contrast-line contrast-line-new"><span class="check">✓</span> Erinnert sich an alles</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== THE MOMENT ===== -->
+<section class="moment reveal">
+    <h2>Du sagst dir geht's gut.<br>Deine Stimme sagt<br><em>etwas anderes.</em></h2>
+
+    <div class="journal-sim" id="journalSim">
+        <div class="js-header">
+            <div class="js-date">Mittwoch, 4. März 2026 · 22:14</div>
+            <div class="js-mood-row">
+                <div class="js-mood-dot"></div>
+                <div class="js-mood-label">ruhig aber erschöpft</div>
+            </div>
+        </div>
+        <div class="js-transcript" id="jsTranscript"></div>
+        <div class="js-coach" id="jsCoach" style="opacity: 0;">
+            <div class="js-coach-icon">✨</div>
+            <div class="js-coach-text" id="jsCoachText"></div>
+        </div>
+        <div class="js-wave-container">
+            <canvas id="miniWave" style="width:100%;height:100%;display:block;"></canvas>
+        </div>
+    </div>
+</section>
+
+<!-- ===== HOW ===== -->
+<section class="how reveal">
+    <h2>Drei Atemzüge. Das war's.</h2>
+    <div class="how-steps">
+        <div class="how-step">
+            <div class="how-num">1</div>
+            <h3>Öffnen</h3>
+            <p>Kluna stellt dir eine Frage. Basierend auf dem was du zuletzt erzählt hast.</p>
+        </div>
+        <div class="how-step">
+            <div class="how-num">2</div>
+            <h3>Sprechen</h3>
+            <p>20 Sekunden reichen. Sag was dich bewegt. Oder auch nicht. Kluna hört beides.</p>
+        </div>
+        <div class="how-step">
+            <div class="how-num">3</div>
+            <h3>Staunen</h3>
+            <p>Kluna zeigt dir was deine Stimme verrät. Ehrlich. Manchmal überraschend.</p>
+        </div>
+        <div class="how-step">
+            <div class="how-num">4</div>
+            <h3>Verstehen</h3>
+            <p>Über Wochen entsteht ein Bild von dir das kein Spiegel zeigen kann.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FEATURES MARQUEE ===== -->
+<section class="feat-marquee-section">
+    <div class="feat-marquee" id="featMarquee">
+        <div class="feat-pill"><span class="icon">🎙</span> Stimm-Signatur</div>
+        <div class="feat-pill"><span class="icon">✨</span> KI-Coach</div>
+        <div class="feat-pill"><span class="icon">📊</span> Persönliche Baseline</div>
+        <div class="feat-pill"><span class="icon">📅</span> Timeline-Tagebuch</div>
+        <div class="feat-pill"><span class="icon">💌</span> Monatsbrief</div>
+        <div class="feat-pill"><span class="icon">🏆</span> Meilensteine</div>
+        <div class="feat-pill"><span class="icon">🔥</span> Streak-Tracking</div>
+        <div class="feat-pill"><span class="icon">🧬</span> Stimm-Typ</div>
+        <div class="feat-pill"><span class="icon">🔒</span> 100% Privatsphäre</div>
+        <div class="feat-pill"><span class="icon">💎</span> Premium Insights</div>
+        <div class="feat-pill"><span class="icon">🎙</span> Stimm-Signatur</div>
+        <div class="feat-pill"><span class="icon">✨</span> KI-Coach</div>
+        <div class="feat-pill"><span class="icon">📊</span> Persönliche Baseline</div>
+        <div class="feat-pill"><span class="icon">📅</span> Timeline-Tagebuch</div>
+        <div class="feat-pill"><span class="icon">💌</span> Monatsbrief</div>
+        <div class="feat-pill"><span class="icon">🏆</span> Meilensteine</div>
+        <div class="feat-pill"><span class="icon">🔥</span> Streak-Tracking</div>
+        <div class="feat-pill"><span class="icon">🧬</span> Stimm-Typ</div>
+        <div class="feat-pill"><span class="icon">🔒</span> 100% Privatsphäre</div>
+        <div class="feat-pill"><span class="icon">💎</span> Premium Insights</div>
+    </div>
+</section>
+
+<!-- ===== WHAT KLUNA HEARS ===== -->
+<section class="hears reveal">
+    <h2>Zwischen deinen Worten<br>liegt die Wahrheit.</h2>
+    <p class="sub">Echte Einträge. Echte Stimmen. Echtes Feedback.</p>
+
+    <div class="hears-grid">
+        <div class="hears-card" style="--c: #E85C5C;">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#E85C5C;border-radius:20px 20px 0 0;opacity:0;transition:opacity 0.3s;" class="ht"></div>
+            <div class="you">„Mir geht's gut, alles normal."</div>
+            <div class="kluna">Für jemanden dem es gut geht bist du heute auffällig leise. Die Pausen zwischen deinen Sätzen sind länger als sonst. Normal klingt anders bei dir.</div>
+        </div>
+        <div class="hears-card" style="--c: #F5B731;">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#F5B731;border-radius:20px 20px 0 0;opacity:0;transition:opacity 0.3s;" class="ht"></div>
+            <div class="you">„Ich hab keine Angst, das wird schon."</div>
+            <div class="kluna">Du redest schneller als sonst und deine Stimme wird höher. Das ist nicht Zuversicht – das ist Anspannung. Dein Körper weiß etwas das dein Kopf noch nicht zugeben will.</div>
+        </div>
+        <div class="hears-card" style="--c: #4DB8A4;">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:#4DB8A4;border-radius:20px 20px 0 0;opacity:0;transition:opacity 0.3s;" class="ht"></div>
+            <div class="you">„Hab heute mit meiner Schwester telefoniert."</div>
+            <div class="kluna">Bei ihrem Namen wird deine Stimme weicher. Wärmer. Ruhiger als die ganze Woche. Was auch immer sie gesagt hat – es hat dir gut getan.</div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== PRIVACY ===== -->
+<section class="privacy reveal">
+    <div class="privacy-card">
+        <h2>Was auf deinem<br>iPhone bleibt,<br>bleibt dort.</h2>
+        <p><strong>Deine Stimme verlässt nie dein Gerät.</strong> Die gesamte Stimmanalyse passiert auf deinem iPhone. Kein Audio wird gesendet. Keine Tracker. Keine Werbung. Und wenn du willst, löschst du alles mit einem Tap.</p>
+        <div class="privacy-pills">
+            <span class="pp">On-Device</span>
+            <span class="pp">Kein Tracking</span>
+            <span class="pp">Kein Audio-Upload</span>
+            <span class="pp">Jederzeit löschbar</span>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FINAL ===== -->
+<section class="final reveal">
+    <div class="final-orb"></div>
+    <h2>Dein erstes Tagebuch das<br><em>wirklich zuhört.</em></h2>
+    <p class="sub">Morgen früh. 20 Sekunden. Deine Stimme. Das reicht.</p>
+    <a href="https://testflight.apple.com/join/DEIN_CODE" class="btn" style="position:relative;">
+        <span class="btn-shimmer"></span>
+        Ersten Eintrag sprechen
+    </a>
+</section>
+
+<footer>
+    <p>Kluna · <a href="/privacy">Datenschutz</a> · <a href="/impressum">Impressum</a> · Made in Munich · 2026</p>
+</footer>
+
+<script>
+// Cursor glow
+const glow=document.getElementById('cursorGlow');
+let gv=false;
+document.addEventListener('mousemove',e=>{
+    glow.style.left=e.clientX+'px';glow.style.top=e.clientY+'px';
+    if(!gv){glow.style.opacity='1';gv=true;}
+});
+document.addEventListener('mouseleave',()=>{glow.style.opacity='0';gv=false;});
+
+// Journal sim typewriter
+const transcript="Heute war eigentlich ein guter Tag, ich hab viel geschafft und bin zufrieden, nur ein bisschen müde vielleicht, aber das ist okay...";
+const coachText="Deine Worte sagen zufrieden. Aber deine Stimme ist leiser als gestern, und du machst Pausen an Stellen wo du sonst durchredest. Da ist eine Müdigkeit die tiefer geht als nur ein langer Tag.";
+const tEl=document.getElementById('jsTranscript');
+const cEl=document.getElementById('jsCoach');
+const ctEl=document.getElementById('jsCoachText');
+let ti=0,ci=0,started=false;
+
+function typeTranscript(){
+    if(ti<=transcript.length){
+        tEl.innerHTML=transcript.substring(0,ti)+'<span class="js-typing-cursor"></span>';
+        ti++;
+        setTimeout(typeTranscript, 25+Math.random()*15);
+    } else {
+        tEl.innerHTML=transcript;
+        setTimeout(()=>{cEl.style.transition='opacity 0.6s';cEl.style.opacity='1';typeCoach();},600);
+    }
+}
+function typeCoach(){
+    if(ci<=coachText.length){
+        ctEl.innerHTML=coachText.substring(0,ci)+'<span class="js-typing-cursor"></span>';
+        ci++;
+        setTimeout(typeCoach, 18+Math.random()*10);
+    } else { ctEl.innerHTML=coachText; }
+}
+
+// Start typing when journal sim is visible
+const simObs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+        if(e.isIntersecting&&!started){started=true;setTimeout(typeTranscript,400);}
+    });
+},{threshold:0.4});
+simObs.observe(document.getElementById('journalSim'));
+
+// Mini wave in journal sim
+const mc=document.getElementById('miniWave');
+const mctx=mc.getContext('2d');
+function resizeMini(){
+    const r=mc.parentElement.getBoundingClientRect();
+    mc.width=r.width*2;mc.height=r.height*2;
+    mc.style.width=r.width+'px';mc.style.height=r.height+'px';
+    mctx.scale(2,2);
+}
+resizeMini();window.addEventListener('resize',resizeMini);
+let mt=0;
+function drawMini(){
+    const w=mc.width/2,h=mc.height/2,mid=h/2;
+    mctx.clearRect(0,0,w,h);
+    mctx.beginPath();mctx.moveTo(0,mid);
+    for(let x=0;x<w;x++){
+        const nx=x/w,env=Math.sin(nx*Math.PI);
+        const y=mid+Math.sin(nx*Math.PI*3+mt)*6*env+Math.sin(nx*Math.PI*5+mt*1.3)*3*env;
+        mctx.lineTo(x,y);
+    }
+    mctx.strokeStyle='rgba(232,130,92,0.2)';mctx.lineWidth=1.5;mctx.lineCap='round';mctx.stroke();
+    mt+=0.03;requestAnimationFrame(drawMini);
+}
+drawMini();
+
+// Hears card hover
+document.querySelectorAll('.hears-card').forEach(c=>{
+    const t=c.querySelector('.ht');
+    c.addEventListener('mouseenter',()=>{if(t)t.style.opacity='1';});
+    c.addEventListener('mouseleave',()=>{if(t)t.style.opacity='0';});
+});
+
+// Reveal
+const ro=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(e=>ro.observe(e));
+</script>
+
+</body>
+</html>
